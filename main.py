@@ -16,7 +16,7 @@ logger = logging.getLogger('pymongo')
 logger.setLevel(logging.INFO)
 
 # Setup MongoDB connection
-client = MongoClient('mongodb+srv://yadavrajneesh481:yadavrajneesh481@cluster0.vutzzt4.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+client = MongoClient('mongodb+srv://<USERNAME>:<PASSWORD>@cluster0.vutzzt4.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
 db = client.test  # Replace 'test' with your database name
 rules_collection = db.rules
 
