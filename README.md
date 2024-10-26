@@ -24,5 +24,5 @@ python main.py
 **APP COMPONENTS**
 
 1. CREATE RULE : will create a rule and show id in UI. for eg: you create two rules it will create two rules with id 1 and 2
-2. Combine RULE: for eg : you add rule number id with comma separated format, it will create a mega rule with separate id on the tkinteR UI
+2. COMBINE RULE: for eg : you add rule number id with comma separated format, it will create a mega rule with separate id on the tkinteR UI
 3. EVALUATE RULE : Add the mega rule Id and data params that you need to provide in json format
