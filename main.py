@@ -128,6 +128,24 @@ def evaluate_rule():
     return jsonify({'result': result})
 
 
+@app.route('/modify_rule', methods=['POST'])
+def modify_rule():
+    try:
+        rule_id = request.json['rule_id']
+        new_rule_string = request.json['new_rule_string']
+        rule = session.query(Rule).filter_by(id=rule_id).first()
+        if rule:
+            rule.rule_string = new_rule_string
+            rule.ast = json.dumps(parse_rule_string(new_rule_string).to_dict())
+            session.commit()
+            return jsonify({'message': 'Rule updated successfully'})
+        else:
+            return jsonify({'message': 'Rule not found'}), 404
+    except Exception as e:
+        logging.error(f"Error modifying rule: {e}")
+        return jsonify({'error': 'Internal Server Error'}), 500
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
