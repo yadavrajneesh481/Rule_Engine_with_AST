@@ -9,7 +9,9 @@ This project implements a simple 3-tier rule engine application using Flask and 
 1. Install the required dependencies:
    ```bash
    pip install flask pymongo
-
+2. Update mongodb url in main.py
+   ```bash
+   client = MongoClient('mongodb+srv://<USERNAME>:<PASSWORD>@cluster0.vutzzt4.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
 Run the Flask application:
 bash
 python main.py
