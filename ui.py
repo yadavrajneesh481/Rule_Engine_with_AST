@@ -1,3 +1,4 @@
+
 import tkinter as tk
 from tkinter import messagebox
 import requests
@@ -40,7 +41,17 @@ class RuleEngineApp:
         self.evaluate_rule_button = tk.Button(self.evaluate_rule_frame, text="Evaluate Rule", command=self.evaluate_rule)
         self.evaluate_rule_button.pack()
 
-   
+        # Modify Rule
+        self.modify_rule_frame = tk.Frame(root)
+        self.modify_rule_frame.pack(pady=10)
+        tk.Label(self.modify_rule_frame, text="Modify Rule ID").pack()
+        self.modify_rule_id_entry = tk.Entry(self.modify_rule_frame, width=50)
+        self.modify_rule_id_entry.pack()
+        tk.Label(self.modify_rule_frame, text="New Rule String").pack()
+        self.new_rule_string_entry = tk.Entry(self.modify_rule_frame, width=50)
+        self.new_rule_string_entry.pack()
+        self.modify_rule_button = tk.Button(self.modify_rule_frame, text="Modify Rule", command=self.modify_rule)
+        self.modify_rule_button.pack()
 
         # Output
         self.output_text = tk.Text(root, height=10, width=80)
@@ -57,7 +68,7 @@ class RuleEngineApp:
 
     def combine_rules(self):
         rule_ids = self.rule_ids_entry.get().split(',')
-        rule_ids = [id.strip() for id in rule_ids]  # Keep IDs as strings
+        rule_ids = [int(id.strip()) for id in rule_ids]
         try:
             response = requests.post(f"{BASE_URL}/combine_rules", json={"rule_ids": rule_ids})
             response.raise_for_status()
@@ -66,7 +77,7 @@ class RuleEngineApp:
             self.output_text.insert(tk.END, f"Error: {e}\n")
 
     def evaluate_rule(self):
-        mega_rule_id = self.mega_rule_id_entry.get()  # Keep as string
+        mega_rule_id = int(self.mega_rule_id_entry.get())
         data = self.data_entry.get()
         try:
             data_json = json.loads(data)
@@ -78,7 +89,15 @@ class RuleEngineApp:
         except requests.exceptions.RequestException as e:
             self.output_text.insert(tk.END, f"Error: {e}\n")
 
-
+    def modify_rule(self):
+        rule_id = int(self.modify_rule_id_entry.get())
+        new_rule_string = self.new_rule_string_entry.get()
+        try:
+            response = requests.post(f"{BASE_URL}/modify_rule", json={"rule_id": rule_id, "new_rule_string": new_rule_string})
+            response.raise_for_status()
+            self.output_text.insert(tk.END, f"Modify Rule Response: {response.json()}\n")
+        except requests.exceptions.RequestException as e:
+            self.output_text.insert(tk.END, f"Error: {e}\n")
 
 if __name__ == "__main__":
     root = tk.Tk()
